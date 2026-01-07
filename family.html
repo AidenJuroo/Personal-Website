@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Family | Armin Asyraf</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth;}
+body{
+  font-family:'Poppins',sans-serif;
+  color:white;
+  overflow-x:hidden;
+  transition: opacity 0.5s ease;
+  position: relative;
+  min-height: 100vh;
+  background: linear-gradient(135deg, rgba(0,0,0,0.95), rgba(26,0,0,0.95), rgba(34,0,0,0.95), rgba(59,0,0,0.95));
+}
+
+body::before {
+  content:"";
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: url('https://4kwallpapers.com/images/wallpapers/king-chess-pawn-3840x2160-16666.jpg') center/cover no-repeat;
+  filter: blur(15px) brightness(0.4);
+  z-index:-1;
+}
+
+/* header */
+header{
+  position:fixed;width:100%;top:0;left:0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(10px);
+  padding:20px 0;
+  text-align:center;
+  z-index:1000;
+  transition: opacity 0.5s ease;
+}
+header.hide{opacity:0;}
+header nav a{
+  color:white;margin:0 15px;text-decoration:none;font-weight:500;position:relative;transition:color 0.3s;
+}
+header nav a::after{
+  content:"";position:absolute;left:0;bottom:-4px;width:0;height:2px;background:#dc143c;transition:width 0.3s ease;
+}
+header nav a:hover::after{width:100%;}
+header nav a:hover{color:#dc143c;}
+
+section{padding:140px 10%;min-height:100vh;}
+h1{
+  color:#dc143c;text-align:center;margin-bottom:50px;
+}
+
+.family-grid{
+  display:flex;
+  flex-wrap:wrap;
+  gap:40px;
+  justify-content:center;
+}
+
+/* container for image + click me */
+.family-photo{
+  position: relative;
+  display: inline-block;
+}
+
+/* original image styling */
+.family-member img{
+  width:140px;
+  height:150px;
+  object-fit:cover;
+  border-radius:50%;
+  margin-bottom:15px;
+  border:3px solid #dc143c;
+  box-shadow:0 0 20px rgba(220,20,60,0.4);
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+/* 🔥 NEW glow + floating idle animation */
+.glow-photo{
+  animation: glowPulsePhoto 2.5s infinite alternate ease-in-out;
+}
+
+.floating{
+  animation: floatingIdle 4.5s infinite ease-in-out;
+}
+
+/* glow pulse animation */
+@keyframes glowPulsePhoto {
+  from {
+    box-shadow:0 0 15px rgba(220,20,60,0.4), 0 0 25px rgba(220,20,60,0.2);
+  }
+  to {
+    box-shadow:0 0 25px rgba(220,20,60,0.9), 0 0 45px rgba(220,20,60,0.7);
+  }
+}
+
+/* floating idle up & down */
+@keyframes floatingIdle {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+.family-member img:hover{
+  transform: scale(1.05);
+  box-shadow:0 0 30px rgba(220,20,60,0.8);
+}
+
+.family-member h2{
+  font-weight:500;color:white;text-align:center;
+}
+
+/* CLICK ME overlay */
+.click-overlay {
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.4);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.85em;
+  color: #ffffff;
+  opacity: 0;
+  filter: blur(1px);
+  transition: opacity 0.5s ease, filter 0.5s ease;
+}
+
+.family-photo:hover .click-overlay {
+  opacity: 1;
+  animation: bounceUp 0.6s ease forwards, pulseGlow 1.5s infinite alternate ease-in-out;
+  filter: blur(0);
+}
+
+@keyframes pulseGlow {
+  from {
+    box-shadow:0 0 10px rgba(220,20,60,0.4),0 0 20px rgba(220,20,60,0.2);
+    color:white;
+  }
+  to {
+    box-shadow:0 0 20px rgba(220,20,60,0.9),0 0 40px rgba(220,20,60,0.8);
+    color:#dc143c;
+  }
+}
+
+@keyframes bounceUp {
+  0% { bottom: -25px; opacity: 0; }
+  60% { bottom: 20px; opacity: 1; }
+  80% { bottom: 12px; }
+  100% { bottom: 15px; }
+}
+
+/* modal styling */
+.modal{display:none;position:fixed;z-index:2000;padding-top:100px;left:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,0.8);animation:fadeIn 0.5s ease;}
+.modal-content{
+  background:rgba(30,0,0,0.9);
+  margin:auto;
+  padding:30px;
+  border:2px solid #dc143c;
+  border-radius:20px;
+  width:80%;
+  max-width:500px;
+  text-align:center;
+  box-shadow:0 0 25px rgba(220,20,60,0.6);
+  animation:zoomIn 0.5s ease;
+}
+
+.modal-content img{
+  zoom:200%;width:120px;height:160px;border-radius:50%;
+  border:3px solid #dc143c;margin-bottom:20px;
+  box-shadow:0 0 20px rgba(220,20,60,0.6);
+}
+
+.close{color:white;float:right;font-size:28px;font-weight:bold;cursor:pointer;}
+.close:hover{color:#dc143c;}
+
+@keyframes fadeIn {from {opacity:0;} to {opacity:1;}}
+@keyframes zoomIn {from {transform:scale(0.8);} to {transform:scale(1);} }
+
+</style>
+</head>
+
+<body>
+<header id="navbar">
+<nav>
+  <a href="index.html">Home</a>
+  <a href="about.html">About Me</a>
+  <a href="collections.html">Collections</a>
+  <a href="family.html">My Family</a>
+  <a href="contact.html">Contact Me</a>
+</nav>
+</header>
+
+<section data-aos="fade-up">
+<h1>My Family</h1>
+
+<div class="family-grid">
+
+  <!-- Father -->
+  <div class="family-member" data-aos="zoom-in" data-aos-delay="100"
+       onclick="openModal('Mohd Asyraf Akhmal Abdullah','FatherImg2.jpg','My father is a hardworking and dedicated person who has always inspired me…')">
+
+    <div class="family-photo">
+      <img class="glow-photo floating" src="Father.png" alt="Father">
+      <span class="click-overlay">Click Me</span>
+    </div>
+
+    <h2>Father</h2>
+  </div>
+
+  <!-- Mother -->
+  <div class="family-member" data-aos="zoom-in" data-aos-delay="200"
+       onclick="openModal('Harijah binti Nandung','MotherImg2.jpg','My mother is caring, kind, and the heart of our family…')">
+
+    <div class="family-photo">
+      <img class="glow-photo floating" src="Mother.png" alt="Mother">
+      <span class="click-overlay">Click Me</span>
+    </div>
+
+    <h2>Mother</h2>
+  </div>
+
+  <!-- Sibling 1 -->
+  <div class="family-member" data-aos="zoom-in" data-aos-delay="300"
+       onclick="openModal('Mohd Aiman Amerun','Sibling1Img2.jpg','My elder sibling is supportive and a great role model…')">
+
+    <div class="family-photo">
+      <img class="glow-photo floating" src="Sibling 1.png" alt="Elder Sibling 1">
+      <span class="click-overlay">Click Me</span>
+    </div>
+
+    <h2>Elder Sibling 1</h2>
+  </div>
+
+  <!-- Sibling 2 -->
+  <div class="family-member" data-aos="zoom-in" data-aos-delay="400"
+       onclick="openModal('Mohd Arman Amerul','Sibling2Img3.jpg','Another wonderful sibling who shares laughter and memories…')">
+
+    <div class="family-photo">
+      <img class="glow-photo floating" src="Sibling 2.png" alt="Elder Sibling 2">
+      <span class="click-overlay">Click Me</span>
+    </div>
+
+    <h2>Elder Sibling 2</h2>
+  </div>
+
+  <!-- Me -->
+  <div class="family-member" data-aos="zoom-in" data-aos-delay="500"
+       onclick="openModal('Me','MeImg2.jpg','That’s me — Armin Asyraf! Always learning and growing…')">
+
+    <div class="family-photo">
+      <img class="glow-photo floating" src="WhatsApp Image 2025-11-12 at 01.01.45_1bff8b3d.jpg" alt="Me">
+      <span class="click-overlay">Click Me</span>
+    </div>
+
+    <h2>Me</h2>
+  </div>
+
+</div>
+</section>
+
+<!-- Modal -->
+<div id="familyModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <img id="modalImage" src="" alt="">
+    <h2 id="modalName"></h2>
+    <p id="modalDescription"></p>
+  </div>
+</div>
+
+<footer>© 2025 Armin Asyraf. All rights reserved.</footer>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+AOS.init({duration:1000, once:true});
+
+let lastScroll=0;
+const navbar=document.getElementById('navbar');
+window.addEventListener('scroll',()=>{
+  const currentScroll=window.pageYOffset;
+  if(currentScroll>lastScroll){navbar.classList.add('hide');}
+  else{navbar.classList.remove('hide');}
+  lastScroll=currentScroll;
+});
+
+document.querySelectorAll('a').forEach(link=>{
+  link.addEventListener('click',e=>{
+    if(link.hostname===window.location.hostname){
+      e.preventDefault();
+      document.body.style.opacity=0;
+      setTimeout(()=>{window.location=link.href;},500);
+    }
+  });
+});
+
+function openModal(name,imageSrc,description){
+  document.getElementById('modalName').innerText=name;
+  document.getElementById('modalImage').src=imageSrc;
+  document.getElementById('modalDescription').innerText=description;
+  document.getElementById('familyModal').style.display="block";
+}
+
+function closeModal(){
+  document.getElementById('familyModal').style.display="none";
+}
+
+window.onclick=function(e){
+  const modal=document.getElementById('familyModal');
+  if(e.target==modal) modal.style.display="none";
+}
+</script>
+
+</body>
+</html>

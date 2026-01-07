@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Collections | Armin Asyraf</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; scroll-behavior:smooth; }
+
+    body {
+      font-family:'Poppins',sans-serif;
+      color:white;
+      overflow-x:hidden;
+      transition:opacity 0.5s ease;
+      background:
+        linear-gradient(135deg, rgba(0,0,0,0.9), rgba(26,0,0,0.85), rgba(59,0,0,0.8)),
+        url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1920&q=80');
+      background-size:cover;
+      background-position:center;
+      background-attachment:fixed;
+      backdrop-filter: blur(5px);
+    }
+
+    header {
+      position:fixed;
+      width:100%; top:0; left:0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter:blur(10px);
+      padding:20px 0;
+      text-align:center;
+      z-index:1000;
+      transition:opacity 0.5s ease;
+    }
+    header.hide { opacity:0; }
+
+    nav a {
+      color:white;
+      margin:0 15px;
+      text-decoration:none;
+      font-weight:500;
+      position:relative;
+      transition:color 0.3s;
+    }
+    nav a::after {
+      content:"";
+      position:absolute;
+      left:0; bottom:-4px;
+      width:0; height:2px;
+      background:#dc143c;
+      transition:width 0.3s ease;
+    }
+    nav a:hover::after { width:100%; }
+    nav a:hover { color:#dc143c; }
+
+    section { padding:120px 10%; min-height:100vh; }
+    h1 {
+      font-size:2.5em;
+      margin-bottom:40px;
+      color:#dc143c;
+      text-align:center;
+    }
+
+    .collection-grid {
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+      gap:40px;
+    }
+
+    .hobby { text-align:center; }
+
+    .item {
+      border:2px solid #dc143c;
+      border-radius:50%;
+      width:220px; height:220px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin:auto;
+      transition: transform 0.5s ease, box-shadow 0.5s ease;
+      background-size:cover;
+      background-position:center;
+      cursor:pointer;
+      box-shadow:0 0 20px rgba(220,20,60,0.3);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .item:hover {
+      transform: scale(1.05);
+      box-shadow:0 0 35px rgba(220,20,60,0.7);
+    }
+
+    /* CLICK ME overlay */
+    .click-overlay {
+      position: absolute;
+      bottom: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.4);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.95em;
+      color: #ffffff;
+      opacity: 0;
+      filter: blur(1px);
+      transition: opacity 0.5s ease, filter 0.5s ease;
+    }
+
+    .item:hover .click-overlay {
+      opacity: 1;
+      animation: bounceUp 0.6s ease forwards, pulseGlow 1.5s infinite alternate ease-in-out;
+      filter: blur(0);
+    }
+
+    @keyframes pulseGlow {
+      from {
+        box-shadow: 0 0 10px rgba(220, 20, 60, 0.4),
+                    0 0 20px rgba(220, 20, 60, 0.2);
+        color: white;
+      }
+      to {
+        box-shadow: 0 0 20px rgba(220, 20, 60, 0.9),
+                    0 0 40px rgba(220, 20, 60, 0.8);
+        color: #dc143c;
+      }
+    }
+
+    @keyframes bounceUp {
+      0% {
+        bottom: -25px;
+        opacity: 0;
+      }
+      60% {
+        bottom: 20px;
+        opacity: 1;
+      }
+      80% {
+        bottom: 12px;
+      }
+      100% {
+        bottom: 15px;
+      }
+    }
+
+    .item-title {
+      margin-top:10px;
+      font-weight:500;
+      color:#dc143c;
+    }
+
+    footer {
+      text-align:center;
+      padding:25px;
+      background: rgba(0,0,0,0.6);
+      color:white;
+      font-size:0.9em;
+      transition:color 0.3s;
+    }
+    footer:hover { color:#dc143c; }
+
+    /* Modal */
+    .modal {
+      display:none;
+      position:fixed;
+      z-index:2000;
+      padding-top:100px;
+      left:0; top:0;
+      width:100%; height:100%;
+      background-color:rgba(0,0,0,0.85);
+      animation: fadeIn 0.5s ease;
+    }
+
+    .modal-content {
+      background:rgba(30,0,0,0.9);
+      margin:auto;
+      padding:20px;
+      border:2px solid #dc143c;
+      border-radius:20px;
+      width:90%; max-width:700px;
+      box-shadow:0 0 30px rgba(220,20,60,0.6);
+      animation: zoomIn 0.5s ease;
+      position:relative;
+      text-align:center;
+    }
+
+    .modal-content.glow {
+      box-shadow:0 0 40px rgba(220,20,60,0.9);
+      animation: pulse 2s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { box-shadow:0 0 20px rgba(220,20,60,0.6); }
+      to { box-shadow:0 0 40px rgba(220,20,60,1); }
+    }
+
+    .modal-content iframe,
+    .modal-content video {
+      width:100%;
+      height:400px;
+      border:none;
+      border-radius:15px;
+      box-shadow:0 0 25px rgba(220,20,60,0.4);
+    }
+
+    .close {
+      position:absolute;
+      top:15px; right:20px;
+      color:white;
+      font-size:28px;
+      font-weight:bold;
+      cursor:pointer;
+      transition:color 0.3s;
+    }
+    .close:hover { color:#dc143c; }
+
+    @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+    @keyframes zoomIn { from {transform:scale(0.8);} to {transform:scale(1);} }
+
+    @media(max-width:900px){
+      .collection-grid { grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); }
+      .modal-content iframe,
+      .modal-content video { height:250px; }
+    }
+  </style>
+
+</head>
+
+<body>
+
+<header id="navbar">
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About Me</a>
+    <a href="collections.html">Collections</a>
+    <a href="family.html">My Family</a>
+    <a href="contact.html">Contact Me</a>
+  </nav>
+</header>
+
+<section data-aos="fade-up">
+  <h1>My Hobbies</h1>
+  <div class="collection-grid">
+
+    <div class="hobby">
+      <div class="item" style="background-image:url('Book4K.jpg');" onclick="openVideo('bookvideo.mp4')">
+        <span class="click-overlay">Click Me</span>
+      </div>
+      <div class="item-title">New Knowledge</div>
+    </div>
+
+    <div class="hobby">
+      <div class="item" style="background-image:url('Dumbell4K.jpg');" onclick="openVideo('gym.mp4')">
+        <span class="click-overlay">Click Me</span>
+      </div>
+      <div class="item-title">Working Out</div>
+    </div>
+
+    <div class="hobby">
+      <div class="item" style="background-image:url('Controller4K.jpg');" onclick="openVideo('game.mp4')">
+        <span class="click-overlay">Click Me</span>
+      </div>
+      <div class="item-title">Gaming</div>
+    </div>
+
+    <div class="hobby">
+      <div class="item" style="background-image:url('Music4K.jpg');" onclick="openVideo('music.mp4')">
+        <span class="click-overlay">Click Me</span>
+      </div>
+      <div class="item-title">Music</div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- Video Modal -->
+<div id="videoModal" class="modal">
+  <div class="modal-content" id="modalBox">
+    <span class="close" onclick="closeVideo()">&times;</span>
+    <div id="videoContainer"></div>
+  </div>
+</div>
+
+<footer>
+  © 2025 Armin Asyraf. All rights reserved.
+</footer>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init({ duration: 1000, once:true });
+
+  let lastScroll=0;
+  const navbar=document.getElementById('navbar');
+  window.addEventListener('scroll',()=>{
+    const currentScroll=window.pageYOffset;
+    if(currentScroll>lastScroll){ navbar.classList.add('hide'); }
+    else { navbar.classList.remove('hide'); }
+    lastScroll=currentScroll;
+  });
+
+  document.querySelectorAll('a').forEach(link=>{
+    link.addEventListener('click',e=>{
+      if(link.hostname===window.location.hostname){
+        e.preventDefault();
+        document.body.style.opacity=0;
+        setTimeout(()=>{ window.location=link.href; },500);
+      }
+    });
+  });
+
+  function openVideo(src){
+    const modal=document.getElementById('videoModal');
+    const modalBox=document.getElementById('modalBox');
+    const container=document.getElementById('videoContainer');
+    container.innerHTML='';
+
+    if(src.includes('youtube')){
+      container.innerHTML=`<iframe src="${src}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+    } else {
+      container.innerHTML=`<video src="${src}" controls autoplay></video>`;
+    }
+
+    modal.style.display='block';
+    modalBox.classList.add('glow');
+  }
+
+  function closeVideo(){
+    const modal=document.getElementById('videoModal');
+    const modalBox=document.getElementById('modalBox');
+    modal.style.display='none';
+    document.getElementById('videoContainer').innerHTML='';
+    modalBox.classList.remove('glow');
+  }
+
+  window.onclick=function(e){
+    const modal=document.getElementById('videoModal');
+    if(e.target==modal){ closeVideo(); }
+  }
+</script>
+
+</body>
+</html>

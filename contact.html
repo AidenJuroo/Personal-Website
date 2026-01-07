@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Me | Armin Asyraf</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth;}
+body{
+  font-family:'Poppins',sans-serif;
+  background: linear-gradient(135deg,#000000,#1a0000,#220000,#3b0000);
+  color:white;
+  transition:opacity 0.5s ease;
+}
+header{
+  position:fixed;width:100%;top:0;left:0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(10px);
+  padding:20px 0;
+  text-align:center;
+  z-index:1000;
+  transition:opacity 0.5s ease;
+}
+header.hide{opacity:0;}
+header nav a{
+  color:white;margin:0 15px;text-decoration:none;font-weight:500;position:relative;transition:color 0.3s;
+}
+header nav a::after{
+  content:"";position:absolute;left:0;bottom:-4px;width:0;height:2px;background:#dc143c;transition:width 0.3s ease;
+}
+header nav a:hover::after{width:100%;}
+header nav a:hover{color:#dc143c;}
+
+section{
+  padding:140px 10%;min-height:100vh;display:flex;flex-direction:column;align-items:center;gap:40px;
+}
+h1{
+  color:#dc143c;text-align:center;margin-bottom:20px;font-size:2.5em;
+}
+.contact-card{
+  width:100%;max-width:600px;
+  background: rgba(255,255,255,0.05);
+  padding:30px;
+  border-radius:12px;
+  box-shadow:0 0 25px rgba(220,20,60,0.3);
+  text-align:center;
+  transition:transform 0.3s,box-shadow 0.3s;
+}
+.contact-card:hover{
+  transform: translateY(-5px);
+  box-shadow:0 0 35px rgba(220,20,60,0.5);
+}
+.contact-card p{margin-bottom:15px;font-size:1.1em;}
+
+.socials{
+  display:flex;justify-content:center;gap:20px;margin-top:20px;
+}
+.socials a{
+  display:flex;justify-content:center;align-items:center;
+  width:60px;height:60px;border-radius:50%;
+  background:#1a0000;
+  box-shadow:0 0 10px rgba(220,20,60,0.4);
+  transition:transform 0.3s,box-shadow 0.3s;
+}
+.socials a:hover{
+  transform: scale(1.2);
+  box-shadow:0 0 20px rgba(220,20,60,0.7);
+}
+.socials img{width:35px;height:35px;object-fit:contain;}
+
+footer{
+  text-align:center;padding:25px;
+  background: rgba(0,0,0,0.6);
+  color:white;font-size:0.9em;
+  transition:color 0.3s;
+}
+footer:hover{color:#dc143c;}
+
+@media(max-width:900px){section{padding:120px 5%;}}
+</style>
+</head>
+<body>
+
+<header id="navbar">
+<nav>
+  <a href="index.html">Home</a>
+  <a href="about.html">About Me</a>
+  <a href="collections.html">Collections</a>
+  <a href="family.html">My Family</a>
+  <a href="contact.html">Contact Me</a>
+</nav>
+</header>
+
+<section data-aos="fade-up">
+  <h1>Contact Me</h1>
+
+  <div class="contact-card" data-aos="fade-up" data-aos-delay="100">
+    <p>Email: <strong>arminarfan007@gmail.com</strong></p>
+    <p>Phone: <strong>+60 16-552 5535</strong></p>
+    <div class="socials">
+      <a href="https:www.facebook.com/mohd.arminarfan.9/" target="_blank" title="Facebook">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png" alt="Facebook">
+      </a>
+      <a href="https://www.instagram.com/" target="_blank" title="Instagram">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
+      </a>
+      <a href="https://www.tiktok.com/@a.arfxn?_r=1&_t=ZS-91VcYPtTiAE" target="_blank" title="TikTok">
+        <img src="tiktok.png" alt="TikTok">
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2025 Armin Asyraf. All rights reserved.
+</footer>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+AOS.init({duration:1000, once:true});
+
+// Navbar hide on scroll
+let lastScroll=0;
+const navbar=document.getElementById('navbar');
+window.addEventListener('scroll',()=>{
+  const currentScroll=window.pageYOffset;
+  if(currentScroll>lastScroll){navbar.classList.add('hide');}
+  else{navbar.classList.remove('hide');}
+  lastScroll=currentScroll;
+});
+
+// Smooth fade between pages
+document.querySelectorAll('a').forEach(link=>{
+  link.addEventListener('click',e=>{
+    if(link.hostname===window.location.hostname){
+      e.preventDefault();
+      document.body.style.opacity=0;
+      setTimeout(()=>{ window.location=link.href; },500);
+    }
+  });
+});
+</script>
+
+</body>
+</html>

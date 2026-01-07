@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Armin Asyraf | Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #000000, #1a0000, #220000, #3b0000);
+      color: white;
+      overflow-x: hidden;
+      transition: opacity 0.5s ease;
+    }
+
+    header {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+      padding: 20px 0;
+      text-align: center;
+      z-index: 1000;
+      transition: opacity 0.5s ease;
+    }
+
+    header.hide {
+      opacity: 0;
+    }
+
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: 500;
+      position: relative;
+      transition: color 0.3s;
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 0;
+      height: 2px;
+      background: #dc143c;
+      transition: width 0.3s ease;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    nav a:hover {
+      color: #dc143c;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: row;
+      gap: 60px;
+      text-align: left;
+      padding: 0 10%;
+    }
+
+    .photo-placeholder {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      border: 3px solid #dc143c;
+      box-shadow: 0 0 20px rgba(220, 20, 60, 0.4);
+      background-image: url('WhatsApp Image 2025-11-12 at 01.01.45_1bff8b3d.jpg');
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.5s ease, box-shadow 0.5s ease;
+    }
+
+    .photo-placeholder:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px rgba(220, 20, 60, 0.7);
+    }
+
+    .hero-text h1 {
+      font-size: 3em;
+      color: #dc143c;
+      margin-bottom: 10px;
+    }
+
+    .hero-text p {
+      font-size: 1.3em;
+      color: #ddd;
+      margin-bottom: 30px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      font-size: 0.9em;
+      transition: color 0.3s;
+    }
+
+    footer:hover {
+      color: #dc143c;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ★ ADDED -->
+  <audio id="introSound">
+    <source src="netflix.intro.mp3" type="audio/mpeg">
+  </audio>
+  <!-- ★ ADDED -->
+
+  <header id="navbar">
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About Me</a>
+      <a href="collections.html">Collections</a>
+      <a href="family.html">My Family</a>
+      <a href="contact.html">Contact Me</a>
+    </nav>
+  </header>
+
+  <section class="hero" data-aos="fade-up">
+    <div class="photo-placeholder" data-aos="zoom-in"></div>
+    <div class="hero-text" data-aos="fade-left">
+      <h1>Armin Asyraf</h1>
+      <p>Aspiring Information Management Professional</p>
+      <a href="about.html" style="color:#dc143c; text-decoration:none; font-weight:600;">Learn More →</a>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 Armin Asyraf. All rights reserved.
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 1000, once: true });
+
+    let lastScroll = 0;
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      const currentScroll = window.pageYOffset;
+      if (currentScroll > lastScroll) {
+        navbar.classList.add('hide');
+      } else {
+        navbar.classList.remove('hide');
+      }
+      lastScroll = currentScroll;
+    });
+
+    // Smooth page fade transition
+    document.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', e => {
+        if (link.hostname === window.location.hostname) {
+          e.preventDefault();
+          document.body.style.opacity = 0;
+          setTimeout(() => { window.location = link.href; }, 500);
+        }
+      });
+    });
+
+    // ★ ADDED — play intro sound on page load
+    window.addEventListener("load", () => {
+      const sound = document.getElementById("introSound");
+      sound.play().catch(() => {
+        console.log("Autoplay blocked. Will play on first user click.");
+        document.body.addEventListener("click", () => sound.play(), { once: true });
+      });
+    });
+    // ★ ADDED
+  </script>
+</body>
+</html>
