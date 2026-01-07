@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Me | Armin Asyraf</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<style>
+* {margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth;}
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #000000, #1a0000, #220000, #3b0000);
+  color: white;
+  overflow-x: hidden;
+  transition: opacity 0.5s ease;
+}
+
+/* HEADER */
+header {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  padding: 20px 0;
+  text-align: center;
+  z-index: 1000;
+  transition: opacity 0.5s ease;
+}
+header.hide {opacity: 0;}
+nav a {
+  color: white;
+  margin: 0 15px;
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.3s;
+}
+nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 2px;
+  background: #dc143c;
+  transition: width 0.3s ease;
+}
+nav a:hover::after {width: 100%;}
+nav a:hover {color: #dc143c;}
+
+/* MAIN SECTION WITH BACKGROUND IMAGE */
+section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 10%;
+
+  background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('Myimage.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  color: white;
+}
+
+/* CONTENT BOX */
+.content {
+  max-width: 800px;
+  backdrop-filter: blur(5px);
+  background: rgba(0,0,0,0.4);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 30px rgba(220,20,60,0.5);
+}
+h1 {font-size: 1.9em; margin-bottom: 20px; color: #dc143c;}
+h2 {color: #dc143c; margin-top: 30px; margin-bottom: 10px; font-size: 1.3em;}
+p, ul {line-height: 1.7; font-size: 1.1em;}
+ul {list-style: none;}
+ul li::before {content: "• "; color: #dc143c;}
+
+.quote {
+  margin-top: 50px;
+  font-style: italic;
+  color: #dc143c;
+  font-size: 1.2em;
+  text-align: center;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 25px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  font-size: 0.9em;
+  transition: color 0.3s;
+}
+footer:hover {color:#dc143c;}
+
+@media(max-width:900px){
+  section {padding: 120px 5%;}
+}
+</style>
+</head>
+<body>
+
+<header id="navbar">
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About Me</a>
+    <a href="collections.html">Collections</a>
+    <a href="family.html">My Family</a>
+    <a href="contact.html">Contact Me</a>
+  </nav>
+</header>
+
+<section data-aos="fade-up">
+  <div class="content" data-aos="fade-left">
+    <br><br>
+    <h1>My Tales</h1>
+    <p>My name is <strong>Mohammad Armin Arfan bin Mohammad Asyraf</strong>, a Diploma in Information Management student passionate about digital organization and creative technology. I’m currently studying at <strong>Universiti Teknologi MARA (UiTM)</strong> and previously attended <strong>SMK Tawau </strong>. I enjoy exploring how technology can improve digital recordkeeping and archiving efficiency.</p>
+
+    <h2>Perks</h2>
+    <ul>
+      <li>Communication</li>
+      <li>Teamwork</li>
+    </ul>
+
+    <h2>Experience</h2>
+    <p>I gained valuable experience during my internship, learning the importance of proper digital record management and collaboration in professional environments.</p>
+
+    <h2>Favourites</h2>
+    <p><strong>Favourite Color:</strong> <span style="color:#dc143c;">Red</span></p>
+    <p><strong>Favourite Food:</strong> Chicken 🍗</p>
+
+    <p class="quote" data-aos="fade-up" data-aos-delay="300">"Discipline Beats Motivation."</p>
+  </div>
+</section>
+
+<footer>
+  © 2025 Armin Asyraf. All rights reserved.
+</footer>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+AOS.init({ duration: 1000, once: true });
+
+let lastScroll = 0;
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  const currentScroll = window.pageYOffset;
+  if (currentScroll > lastScroll) { navbar.classList.add('hide'); }
+  else { navbar.classList.remove('hide'); }
+  lastScroll = currentScroll;
+});
+
+document.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', e => {
+    if(link.hostname === window.location.hostname){
+      e.preventDefault();
+      document.body.style.opacity=0;
+      setTimeout(()=>{window.location=link.href},500);
+    }
+  });
+});
+</script>
+
+</body>
+</html>
